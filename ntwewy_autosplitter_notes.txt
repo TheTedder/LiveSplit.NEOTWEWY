@@ -1,0 +1,24 @@
+** GENERAL NOTES **
+
+- By default, saves are stored in Documents/My Games/NEO The World Ends with You\Steam\76561198044117400
+- Hold R2/RT or Alt to fast forward text + skip cutscenes, this includes the day end cutscene but you may not want to skip all of them
+- This game autosaves but it has its own slot for that, it shouldn't be a problem.
+- I geared up everything to make fights somewhat easy, you should be able to mash away at enemies in general and never die, the input button for each attack is displayed on the HUD
+- All files are hacked to have everything, so you'll probably get a bunch of Steam achievements the first time, in case those are annoying
+
+I prepared files 1-3 to test day endings for autosplitting. They're clearly indicated by an endcard that fades to black. 
+
+Ideally the split would be on the fade to black, since it's an NG+ file it'll go to chapter selection but otherwise it'd go to the title card for the next day (you can select any day from the menu if that title card is also needed for testing).
+
+
+** SPECIFIC FILES **
+
+File 1 - Prologue end, just walk backwards and skip a few cutscenes
+File 2 - Day 1 end, examine and mash away at a boss, then skip a few cutscenes
+File 3 - Day 2 end, examine and mash away at a boss, then skip a few cutscenes
+
+File 5 - Free roam, you can walk around and do whatever there, there are also lots of fights which would be ideal to test load removing and other stuff
+			Press R1/RB or E on keyboard and move to the red symbols to start a fight.
+
+File 4 - Final boss one but it will take longer, you'll need to press Square/X or F on keyboard and select "change our fate", there's a whole lot of cutscenes and the fight itself takes a while, so it'll probably be annoying, but the final input would be this after 2 phases: https://prnt.sc/mj07Gn3iKP1R
+			After the fight it's more cutscenes so you should just ALT+F4 out for repeated testing.
