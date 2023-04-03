@@ -22,10 +22,15 @@ init {
             // LastBattleRindoAttackButtonGuide::IsPush
             0x50);
 
+        //print(mono["FieldManager", 1].Static.ToString("X"));
         vars.Helper["mapload"] = mono["FieldManager", 1].Make<IntPtr>(
             "mInstance",
             // FieldManager::m_FieldMapDataManager
             0x58);
+
+        vars.Helper["mapload"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+        //vars.Helper["fieldstate"] = mono["FieldManager", 1].Make<int>("mInstance", "m_FieldState");
+        //vars.Helper["fieldstate"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
         return true;
     });
 }
@@ -78,10 +83,20 @@ isLoading {
             }
         }
     } else {
-        return (
-            // FieldMapDataManager::m_IsLoadFieldMapScene
-            current.mapload != IntPtr.Zero && !memory.ReadValue<bool>((IntPtr)current.mapload + 0x30)
-        ) || vars.loading.Deref<bool>(game);
+        byte changing = memory.ReadValue<byte>((IntPtr)current.mapload + 0x30);
+        //IntPtr controller = memory.ReadPointer((IntPtr)current.mapload + 0x38);
+        //IntPtr isLoad = memory.ReadPointer(controller + 0x18);
+
+        if (current.mapload != IntPtr.Zero && changing == 0) {
+            return true;
+        }
+
+        if (vars.loading.Deref<bool>(game)) {
+            print("loading");
+            return true;
+        }
+
+        return false;
     }
 }
 
