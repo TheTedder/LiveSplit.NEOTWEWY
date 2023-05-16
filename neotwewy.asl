@@ -14,7 +14,9 @@ init {
         vars.Helper["UIs"] = mono["UIManager", 1].Make<IntPtr>("msInstance", "mUIs");
 
         vars.Helper["end"] = mono["BattleScene", 2].Make<bool>(
-            "msInstance", "mSeq",
+            "msInstance",
+            // mSeq
+            0xb8,
             // BattleSceneSequence::mLastBossFinishSeq
             0x28,
             // BattleSceneLastBossFinishSequence::mRindoAttackGuideUI
