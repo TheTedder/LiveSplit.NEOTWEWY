@@ -83,11 +83,11 @@ isLoading {
             }
         }
     } else {
-        byte changing = memory.ReadValue<byte>((IntPtr)current.mapload + 0x30);
         //IntPtr controller = memory.ReadPointer((IntPtr)current.mapload + 0x38);
         //IntPtr isLoad = memory.ReadPointer(controller + 0x18);
 
-        if (current.mapload != IntPtr.Zero && changing == 0) {
+        // Check to make sure the pointer isn't null before dereferencing.
+        if (current.mapload != IntPtr.Zero && memory.ReadValue<byte>((IntPtr)current.mapload + 0x30) == 0) {
             return true;
         }
 
