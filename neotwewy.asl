@@ -97,6 +97,11 @@ isLoading {
         //IntPtr controller = memory.ReadPointer((IntPtr)current.mapload + 0x38);
         //IntPtr isLoad = memory.ReadPointer(controller + 0x18);
 
+        if (current.battlestate == 3) {
+            print("next battle round loading");
+            return true;
+        }
+
         //FieldManager::m_FieldState
         if (current.fieldmanager != IntPtr.Zero && memory.ReadValue<int>((IntPtr)current.fieldmanager + 0x18) == 0) {
             // FieldManager::m_FieldMapDataManager
