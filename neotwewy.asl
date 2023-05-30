@@ -27,9 +27,17 @@ init {
         vars.Helper["fieldmanager"] = mono["FieldManager", 1].Make<IntPtr>(
             "mInstance");
         vars.Helper["fieldmanager"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
-
         // vars.Helper["FieldMapDataManager"] = mono["FieldMapDataManager", 1].Make<IntPtr>("msInstance");
         // vars.Helper["FieldMapDataManager"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+
+        vars.Helper["battlestate"] = mono["BattleScene", 2].Make<byte>(
+            // mSeq
+            0xb8,
+            "mSeq",
+            // mInnerState
+            0x10);
+
+        vars.Helper["battlestate"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
         return true;
     });
 }
