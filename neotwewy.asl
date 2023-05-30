@@ -24,17 +24,18 @@ init {
             // LastBattleRindoAttackButtonGuide::IsPush
             0x50);
 
-        //print(mono["FieldManager", 1].Static.ToString("X"));
-        vars.Helper["mapload"] = mono["FieldManager", 1].Make<IntPtr>(
-            "mInstance",
-            // FieldManager::m_FieldMapDataManager
-            0x58);
+        vars.Helper["fieldmanager"] = mono["FieldManager", 1].Make<IntPtr>(
+            "mInstance");
+        vars.Helper["fieldmanager"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 
-        vars.Helper["mapload"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
-        //vars.Helper["fieldstate"] = mono["FieldManager", 1].Make<int>("mInstance", "m_FieldState");
-        //vars.Helper["fieldstate"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+        // vars.Helper["FieldMapDataManager"] = mono["FieldMapDataManager", 1].Make<IntPtr>("msInstance");
+        // vars.Helper["FieldMapDataManager"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
         return true;
     });
+}
+
+update {
+    //print("Fieldmanager: " + current.mapload.ToString("X") + "\nFieldmanager.FieldMapDataManager: " + memory.ReadPointer((IntPtr)current.mapload + 0x58).ToString("X") + "\nFieldMapDataManager: " + current.FieldMapDataManager.ToString("X"));
 }
 
 isLoading {
@@ -88,9 +89,16 @@ isLoading {
         //IntPtr controller = memory.ReadPointer((IntPtr)current.mapload + 0x38);
         //IntPtr isLoad = memory.ReadPointer(controller + 0x18);
 
-        // Check to make sure the pointer isn't null before dereferencing.
-        if (current.mapload != IntPtr.Zero && memory.ReadValue<byte>((IntPtr)current.mapload + 0x30) == 0) {
-            return true;
+        //FieldManager::m_FieldState
+        if (current.fieldmanager != IntPtr.Zero && memory.ReadValue<int>((IntPtr)current.fieldmanager + 0x18) == 0) {
+            // FieldManager::m_FieldMapDataManager
+            IntPtr FieldMapDataManager = memory.ReadValue<IntPtr>((IntPtr)current.fieldmanager + 0x58);
+            
+            // FieldMapDataManager::m_IsLoadFieldMapScene
+            if (FieldMapDataManager != IntPtr.Zero && memory.ReadValue<bool>(FieldMapDataManager + 0x30)) {
+                print("map changing");
+                return true;
+            }
         }
 
         if (vars.loading.Deref<bool>(game)) {
