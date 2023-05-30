@@ -13,6 +13,8 @@ init {
     vars.Helper.TryLoad = (Func<dynamic, bool>)(mono => {
         vars.Helper["UIs"] = mono["UIManager", 1].Make<IntPtr>("msInstance", "mUIs");
 
+        // TODO: Consolidate the "end" and "battlestate" pointers.
+
         vars.Helper["end"] = mono["BattleScene", 2].Make<bool>(
             "msInstance",
             // mSeq
