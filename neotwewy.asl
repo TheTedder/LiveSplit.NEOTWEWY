@@ -13,6 +13,8 @@ init {
     vars.Helper.TryLoad = (Func<dynamic, bool>)(mono => {
         vars.Helper["UIs"] = mono["UIManager", 1].Make<IntPtr>("msInstance", "mUIs");
 
+        // TODO: Consolidate the "end" and "battlestate" pointers.
+
         vars.Helper["end"] = mono["BattleScene", 2].Make<bool>(
             "msInstance",
             // mSeq
@@ -27,15 +29,19 @@ init {
         vars.Helper["fieldmanager"] = mono["FieldManager", 1].Make<IntPtr>(
             "mInstance");
         vars.Helper["fieldmanager"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
-
         // vars.Helper["FieldMapDataManager"] = mono["FieldMapDataManager", 1].Make<IntPtr>("msInstance");
         // vars.Helper["FieldMapDataManager"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
+
+        vars.Helper["battlestate"] = mono["BattleScene", 2].Make<byte>(
+            "msInstance",
+            // mSeq
+            0xb8,
+            // mInnerState
+            0x10);
+
+        vars.Helper["battlestate"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
         return true;
     });
-}
-
-update {
-    //print("Fieldmanager: " + current.mapload.ToString("X") + "\nFieldmanager.FieldMapDataManager: " + memory.ReadPointer((IntPtr)current.mapload + 0x58).ToString("X") + "\nFieldMapDataManager: " + current.FieldMapDataManager.ToString("X"));
 }
 
 isLoading {
@@ -88,6 +94,11 @@ isLoading {
     } else {
         //IntPtr controller = memory.ReadPointer((IntPtr)current.mapload + 0x38);
         //IntPtr isLoad = memory.ReadPointer(controller + 0x18);
+
+        if (current.battlestate == 3) {
+            print("next battle round loading");
+            return true;
+        }
 
         //FieldManager::m_FieldState
         if (current.fieldmanager != IntPtr.Zero && memory.ReadValue<int>((IntPtr)current.fieldmanager + 0x18) == 0) {
