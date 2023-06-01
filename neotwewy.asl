@@ -44,10 +44,6 @@ init {
     });
 }
 
-update {
-    //print("Fieldmanager: " + current.mapload.ToString("X") + "\nFieldmanager.FieldMapDataManager: " + memory.ReadPointer((IntPtr)current.mapload + 0x58).ToString("X") + "\nFieldMapDataManager: " + current.FieldMapDataManager.ToString("X"));
-}
-
 isLoading {
     if (vars.gameobject == IntPtr.Zero) {
         // Iterate through the entries of a `Dictionary<int, GameObject>`.
