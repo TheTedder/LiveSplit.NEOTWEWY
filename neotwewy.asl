@@ -33,9 +33,9 @@ init {
         // vars.Helper["FieldMapDataManager"].FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 
         vars.Helper["battlestate"] = mono["BattleScene", 2].Make<byte>(
+            "msInstance",
             // mSeq
             0xb8,
-            "mSeq",
             // mInnerState
             0x10);
 
