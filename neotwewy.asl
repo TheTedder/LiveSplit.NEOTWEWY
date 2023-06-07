@@ -1,5 +1,9 @@
-state("NEO The World Ends with You") {
+state("NEO The World Ends with You", "1.0.0.0") {
     int day: "GameAssembly.dll", 0x2506d68, 0x30, 0, 0xb8, 0, 0x28;
+}
+
+state("NEO The World Ends with You", "1.0.1.0") {
+    int day: "GameAssembly.dll", 0x27f38e8, 0x30, 0, 0xb8, 0, 0x28;
 }
 
 startup {
@@ -7,6 +11,8 @@ startup {
 }
 
 init {
+    version = game.MainModule.FileVersionInfo.ProductVersion;
+
     vars.gameobject = IntPtr.Zero;
     vars.loading = null;
     
